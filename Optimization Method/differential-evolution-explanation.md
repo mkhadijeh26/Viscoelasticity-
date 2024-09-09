@@ -22,27 +22,21 @@ For each target vector $x_{i,G}$, generate a mutant vector $v_{i,G+1}$:
 
 $v_{i,G+1} = x_{r1,G} + F \cdot (x_{r2,G} - x_{r3,G})$
 
-where $r1, r2, r3 \in \{1, 2, ..., NP\}$ are random indices, mutually different and different from $i$. $F \in (0, 2]$ is the mutation factor.
+where $r1, r2, r3 \in 1, 2, . . . , NP$ are random indices, mutually different and different from $i$. $F \in (0, 2]$ is the mutation factor.
 
 ### 3. Crossover
 
 Generate a trial vector $u_{i,G+1}$ by binomial crossover:
 
-$u_{j,i,G+1} = \begin{cases} 
-v_{j,i,G+1} & \text{if } \text{rand}_j(0,1) \leq CR \text{ or } j = j_\text{rand} \\
-x_{j,i,G} & \text{otherwise}
-\end{cases}$
+$u_{j,i,G+1} = \begin{cases} v_{j,i,G+1} & \text{if } \text{rand}j(0,1) \leq CR \text{ or } j = j_\text{rand} \\ x_{j,i,G} & \text{otherwise} \end{cases}$
 
-where $j = 1, 2, ..., D$, $\text{rand}_j(0,1)$ is a uniform random number, $CR \in [0,1]$ is the crossover rate, and $j_\text{rand} \in \{1, 2, ..., D\}$ is a random index.
+where $j = 1, 2, . . . , D$, $\text{rand}j(0,1)$ is a uniform random number, $CR \in [0,1]$ is the crossover rate, and $j_\text{rand} \in \{1, 2, ..., D\}$ is a random index.
 
 ### 4. Selection
 
 Select the better vector between the target and trial vectors:
 
-$x_{i,G+1} = \begin{cases}
-u_{i,G+1} & \text{if } f(u_{i,G+1}) \leq f(x_{i,G}) \\
-x_{i,G} & \text{otherwise}
-\end{cases}$
+$x_{i,G+1} = \begin{cases} u_{i,G+1} & \text{if } f(u_{i,G+1}) \leq f(x_{i,G}) \\ x_{i,G} & \text{otherwise} \end{cases}$
 
 ### 5. Termination
 
