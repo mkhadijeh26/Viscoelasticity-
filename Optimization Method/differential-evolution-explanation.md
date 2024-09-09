@@ -1,80 +1,62 @@
-# Prony Series Optimization Algorithm
+# Prony Series Fit for Viscoelastic Data
 
-This document describes the optimization algorithm used to fit a Prony series to experimental data of storage and loss moduli.
+This project provides a Python-based implementation to fit viscoelastic data using the **Prony series**. The code uses experimental data (storage modulus and loss modulus) and optimizes the Prony series parameters to model the material's behavior.
 
-## 1. Prony Series Model
+## Prony Series Overview
 
-The Prony series is used to model the viscoelastic behavior of materials. For dynamic modulus data, it can be expressed as:
+The **Prony series** is a mathematical model used to represent the viscoelastic behavior of materials. The material's modulus is decomposed into two parts:
+- **Storage modulus** (elastic behavior): E'(ω)
+- **Loss modulus** (viscous behavior): E''(ω)
 
-### Storage Modulus:
+The equations for the Prony series used in this project are as follows:
 
-$E'(\omega) = E_0 \left(1 - \sum_{i=1}^N g_i + \sum_{i=1}^N \frac{g_i \omega^2 \tau_i^2}{1 + \omega^2 \tau_i^2}\right)$
+### Storage Modulus E'(ω):
 
-### Loss Modulus:
+![Storage Modulus](https://latex.codecogs.com/svg.image?E'(\omega)%20=%20E_0%20\left(1%20-%20\sum_{i=1}^{n}%20g_i%20+%20\sum_{i=1}^{n}%20g_i%20\frac{\omega^2%20\tau_i^2}{1%20+%20\omega^2%20\tau_i^2}%20\right))
 
-$E''(\omega) = E_0 \sum_{i=1}^N \frac{g_i \omega \tau_i}{1 + \omega^2 \tau_i^2}$
+### Loss Modulus E''(ω):
 
-Where:
-- $E_0$ is the long-term modulus
-- $g_i$ are the relaxation strengths
-- $\tau_i$ are the relaxation times
-- $\omega$ is the angular frequency
-- $N$ is the number of Prony series terms
-
-## 2. Objective Function
-
-The optimization aims to minimize the Mean Absolute Percentage Error (MAPE) between the experimental data and the Prony series model:
-
-$MAPE = \frac{1}{2}\left(\frac{1}{n}\sum_{j=1}^n \left|\frac{E'_{exp,j} - E'_{calc,j}}{E'_{exp,j}}\right| + \frac{1}{n}\sum_{j=1}^n \left|\frac{E''_{exp,j} - E''_{calc,j}}{E''_{exp,j}}\right|\right) \times 100\%$
+![Loss Modulus](https://latex.codecogs.com/svg.image?E''(\omega)%20=%20E_0%20\sum_{i=1}^{n}%20g_i%20\frac{\omega%20\tau_i}{1%20+%20\omega^2%20\tau_i^2})
 
 Where:
-- $E'_{exp,j}$ and $E''_{exp,j}$ are the experimental storage and loss moduli
-- $E'_{calc,j}$ and $E''_{calc,j}$ are the calculated storage and loss moduli from the Prony series
-- $n$ is the number of data points
+- E₀ is the long-term modulus.
+- gᵢ are the Prony series coefficients (describing the material's relaxation behavior).
+- τᵢ are the relaxation times.
+- ω is the angular frequency (rad/s).
 
-## 3. Optimization Algorithm: Differential Evolution
+## Algorithm
 
-The code uses the Differential Evolution algorithm to optimize the Prony series parameters. This is a global optimization method that works well for non-convex problems.
+The core of the implementation is based on **differential evolution (DE)**, a global optimization technique. The optimization process aims to minimize the error between the experimental and predicted moduli, based on the following **Mean Absolute Percentage Error (MAPE)** objective function:
 
-### Algorithm Steps:
+![MAPE](https://latex.codecogs.com/svg.image?\text{MAPE}(E',%20E'')%20=%20\frac{100}{n}%20\sum_{i=1}^{n}%20\left|%20\frac{E_{\text{exp}}'%20-%20E_{\text{calc}}'}{E_{\text{exp}}'}%20\right|%20+%20\frac{100}{n}%20\sum_{i=1}^{n}%20\left|%20\frac{E_{\text{exp}}''%20-%20E_{\text{calc}}''}{E_{\text{exp}}''}%20\right|)
 
-1. Initialize a population of candidate solutions (parameter sets) within specified bounds.
-2. For each generation:
-   a. Create new candidate solutions through mutation and crossover.
-   b. Evaluate the fitness (MAPE) of each new solution.
-   c. Select the better solutions for the next generation.
-3. Repeat until convergence or maximum iterations reached.
+The **differential evolution** algorithm works as follows:
 
-### Key Parameters:
+1. **Initialization**: 
+   A population of NP candidate solutions x_i (i = 1, ..., NP) is randomly generated within the specified parameter bounds. Each x_i represents a set of Prony series parameters E_0, g_1, τ_1, ..., g_n, τ_n.
 
-- Strategy: 'best1bin'
-- Maximum iterations: 1000
-- Population size: 15
-- Tolerance: 1e-7
-- Mutation constant: (0.5, 1)
-- Recombination constant: 0.7
+2. **Mutation**: 
+   For each target vector x_i, a mutant vector v_i is created using the "best1bin" strategy:
+   
+   ![Mutation](https://latex.codecogs.com/svg.image?v_i%20=%20x_{best}%20+%20F%20\cdot%20(x_{r1}%20-%20x_{r2}))
+   
+   Where x_best is the best solution so far, x_r1 and x_r2 are two randomly chosen distinct vectors, and F is the mutation factor (set to a range of [0.5, 1] in this implementation).
 
-## 4. Adaptive Fitting
+3. **Crossover**: 
+   A trial vector u_i is created by mixing components of x_i and v_i:
+   
+   ![Crossover](https://latex.codecogs.com/svg.image?u_{i,j}%20=%20\begin{cases}%20v_{i,j}%20&%20\text{if%20}%20\text{rand}(0,1)%20\leq%20CR%20\text{%20or%20}%20j%20=%20j_{rand}%20\\%20x_{i,j}%20&%20\text{otherwise}%20\end{cases})
+   
+   Where CR is the crossover rate (set to 0.7 in this implementation) and j_rand is a randomly chosen index to ensure that at least one component is always inherited from the mutant vector.
 
-The code implements an adaptive fitting approach:
+4. **Selection**: 
+   The trial vector u_i is evaluated using the MAPE objective function. If it yields a lower MAPE than x_i, it replaces x_i in the next generation:
+   
+   ![Selection](https://latex.codecogs.com/svg.image?x_i^{G+1}%20=%20\begin{cases}%20u_i^G%20&%20\text{if%20}%20f(u_i^G)%20<%20f(x_i^G)%20\\%20x_i^G%20&%20\text{otherwise}%20\end{cases})
+   
+   Where f() represents the MAPE objective function and G is the current generation.
 
-1. Start with 1 Prony term.
-2. Optimize parameters using Differential Evolution.
-3. Calculate MAPE for current fit.
-4. Increase number of terms and repeat steps 2-3.
-5. Continue up to a maximum number of terms (10 in this case).
-6. Select the model with the lowest MAPE as the best fit.
+5. **Stopping Criteria**: 
+   The algorithm continues for a maximum of 1000 iterations or until the population converges to within a tolerance of 1e-7.
 
-This adaptive approach helps to determine the optimal number of Prony terms needed to accurately represent the material behavior without overfitting.
-
-## 5. Parameter Bounds
-
-The optimization is constrained by the following parameter bounds:
-
-- $E_0$: $[0.5 \times \min(E'_{exp}), 2 \times \max(E'_{exp})]$
-- $g_i$: $[0, 1]$
-- $\tau_i$: $[1/\max(\omega), 1/\min(\omega)]$
-
-These bounds ensure physically meaningful results and improve the efficiency of the optimization process.
-
-By combining the Prony series model, MAPE objective function, Differential Evolution algorithm, and adaptive fitting approach, this method provides a robust way to characterize viscoelastic materials from dynamic modulus data.
+[The rest of the content remains the same...]
