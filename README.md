@@ -1,6 +1,6 @@
 # Prony Series Fit for Viscoelastic Data
 
-This project provides a Python-based implementation to fit viscoelastic data using the **Prony series**. The code uses experimental data (storage modulus and loss modulus) and optimizes the Prony series parameters to model the material's behavior. This is useful in modeling viscoelastic materials, such as polymers, by fitting their frequency-dependent storage and loss moduli.
+This project provides a Python-based implementation to fit viscoelastic data using the **Prony series**. The code uses experimental data (storage modulus and loss modulus) and optimizes the Prony series parameters to model the material's behavior. This is useful in modeling viscoelastic materials, such as polymers, by fitting their frequency-dependent storage and loss moduli. The resulting Prony series parameters are particularly useful for creating material models in finite element software like ABAQUS.
 
 ## Prony Series Overview
 
@@ -38,11 +38,11 @@ The **differential evolution** algorithm works as follows:
 
 ## Adaptive Fitting
 
-The script adapts the number of terms in the Prony series, ranging from 1 to 5 terms, to achieve the best fit. The code incrementally increases the number of terms and chooses the model with the lowest MAPE for both the storage and loss moduli.
+The script adapts the number of terms in the Prony series, ranging from 1 to a user-defined maximum number of terms (default is 10). The code incrementally increases the number of terms and chooses the model with the lowest MAPE for both the storage and loss moduli. This adaptive approach ensures that the optimal number of Prony terms is used for each dataset.
 
 ## Visualization
 
-The code also generates plots comparing the experimental data with the fitted Prony series for both the storage and loss moduli.
+The code generates plots comparing the experimental data with the fitted Prony series for both the storage and loss moduli. These plots are displayed using a logarithmic scale for both axes, providing a clear visualization of the fit across the entire frequency range.
 
 ## How to Run the Code
 
@@ -54,12 +54,31 @@ The code also generates plots comparing the experimental data with the fitted Pr
    - Matplotlib
 
 2. **Data**:
-   Provide an Excel file with columns for **Frequency**, **Storage Modulus**, and **Loss Modulus**.
+   Provide an Excel file with columns for **Frequency**, **Storage-Modulus**, and **Loss-Modulus**.
 
 3. **Run the Script**:
-   Simply run the script with your experimental data. The output will show the optimized Prony series parameters and a plot of the fit compared to the experimental data.
+   Ensure that the file path in the `main()` function is correct for your system. Then run the script using Python. The output will show the optimized Prony series parameters, the number of terms used, and a plot of the fit compared to the experimental data.
 
 4. **Example Command**:
    ```bash
    python prony_fit.py
    ```
+
+## Output
+
+The script provides detailed output, including:
+- MAPE values for each number of Prony terms tested
+- The optimal number of Prony terms
+- The long-term modulus (E0)
+- Individual Prony series parameters (gi and τi)
+- The sum of gi values
+- A plot comparing experimental and fitted data
+
+## Applications
+
+The Prony series parameters obtained from this script are particularly useful for creating material models in finite element software like ABAQUS. These parameters can be directly input into ABAQUS to define viscoelastic material behavior, enabling accurate simulation of time-dependent material responses.
+
+## Customization
+
+You can customize the maximum number of Prony terms by modifying the `No_Prony` variable at the beginning of the script. This allows you to adjust the complexity of the fit based on your specific material and data requirements.
+
