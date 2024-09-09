@@ -33,7 +33,7 @@ The core of the implementation is based on **differential evolution (DE)**, a gl
 The **differential evolution** algorithm works as follows:
 
 1. **Initialization**: 
-   A population of $NP$ candidate solutions $x_i$ ($i$ = 1, ..., $NP$) is randomly generated within the specified parameter bounds. Each x_i represents a set of Prony series parameters $E_0$, $g_1$, $τ_1$, ..., $g_n$, $τ_n$.
+   A population of $NP$ candidate solutions $x_i$ ($i$ = 1, ..., $NP$) is randomly generated within the specified parameter bounds. Each $x_i$ represents a set of Prony series parameters $E_0$, $g_1$, $τ_1$, ..., $g_n$, $τ_n$.
 
 2. **Mutation**: 
    For each target vector x_i, a mutant vector $v_i$ is created using the "best1bin" strategy:
