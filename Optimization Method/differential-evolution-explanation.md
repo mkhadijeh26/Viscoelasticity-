@@ -1,94 +1,80 @@
+# Prony Series Optimization Algorithm
 
-# Differential Evolution Optimization Method
+This document describes the optimization algorithm used to fit a Prony series to experimental data of storage and loss moduli.
 
-## Overview
+## 1. Prony Series Model
 
-Differential Evolution (DE) is a population-based optimization algorithm used in this project to fit Prony series parameters to viscoelastic data. DE is particularly effective for global optimization problems with real-valued parameters, making it well-suited for our Prony series fitting task.
+The Prony series is used to model the viscoelastic behavior of materials. For dynamic modulus data, it can be expressed as:
 
-## Mathematical Formulation
+### Storage Modulus:
 
-Let $f(x)$ be the objective function to be minimized, where $x$ is a D-dimensional vector of real-valued parameters.
+$E'(\omega) = E_0 \left(1 - \sum_{i=1}^N g_i + \sum_{i=1}^N \frac{g_i \omega^2 \tau_i^2}{1 + \omega^2 \tau_i^2}\right)$
 
-### 1. Initialization
+### Loss Modulus:
 
-Generate an initial population of NP parameter vectors:
+$E''(\omega) = E_0 \sum_{i=1}^N \frac{g_i \omega \tau_i}{1 + \omega^2 \tau_i^2}$
 
-$x_{i,G} = [x_{1,i,G}, x_{2,i,G}, ..., x_{D,i,G}]$
+Where:
+- $E_0$ is the long-term modulus
+- $g_i$ are the relaxation strengths
+- $\tau_i$ are the relaxation times
+- $\omega$ is the angular frequency
+- $N$ is the number of Prony series terms
 
-where $i = 1, 2, ..., NP$ and $G$ is the generation number.
+## 2. Objective Function
 
-### 2. Mutation
+The optimization aims to minimize the Mean Absolute Percentage Error (MAPE) between the experimental data and the Prony series model:
 
-For each target vector $x_{i,G}$, generate a mutant vector $v_{i,G+1}$:
+$MAPE = \frac{1}{2}\left(\frac{1}{n}\sum_{j=1}^n \left|\frac{E'_{exp,j} - E'_{calc,j}}{E'_{exp,j}}\right| + \frac{1}{n}\sum_{j=1}^n \left|\frac{E''_{exp,j} - E''_{calc,j}}{E''_{exp,j}}\right|\right) \times 100\%$
 
-$v_{i,G+1} = x_{r1,G} + F \cdot (x_{r2,G} - x_{r3,G})$
+Where:
+- $E'_{exp,j}$ and $E''_{exp,j}$ are the experimental storage and loss moduli
+- $E'_{calc,j}$ and $E''_{calc,j}$ are the calculated storage and loss moduli from the Prony series
+- $n$ is the number of data points
 
-where $r1, r2, r3 \in \{1, 2, ..., NP\}$ are random indices, mutually different and different from $i$. $F \in (0, 2]$ is the mutation factor.
+## 3. Optimization Algorithm: Differential Evolution
 
-### 3. Crossover
+The code uses the Differential Evolution algorithm to optimize the Prony series parameters. This is a global optimization method that works well for non-convex problems.
 
-Generate a trial vector $u_{i,G+1}$ by binomial crossover:
+### Algorithm Steps:
 
-$u_{j,i,G+1} = \begin{cases} 
-v_{j,i,G+1} & \text{if } \text{rand}_j(0,1) \leq CR \text{ or } j = j_\text{rand} \\ 
-x_{j,i,G} & \text{otherwise} 
-\end{cases}$
+1. Initialize a population of candidate solutions (parameter sets) within specified bounds.
+2. For each generation:
+   a. Create new candidate solutions through mutation and crossover.
+   b. Evaluate the fitness (MAPE) of each new solution.
+   c. Select the better solutions for the next generation.
+3. Repeat until convergence or maximum iterations reached.
 
-where $j = 1, 2, ..., D$, $\text{rand}_j(0,1)$ is a uniform random number, $CR \in [0,1]$ is the crossover rate, and $j_\text{rand} \in \{1, 2, ..., D\}$ is a random index.
+### Key Parameters:
 
-### 4. Selection
+- Strategy: 'best1bin'
+- Maximum iterations: 1000
+- Population size: 15
+- Tolerance: 1e-7
+- Mutation constant: (0.5, 1)
+- Recombination constant: 0.7
 
-Select the better vector between the target and trial vectors:
+## 4. Adaptive Fitting
 
-$x_{i,G+1} = \begin{cases} 
-u_{i,G+1} & \text{if } f(u_{i,G+1}) \leq f(x_{i,G}) \\ 
-x_{i,G} & \text{otherwise} 
-\end{cases}$
+The code implements an adaptive fitting approach:
 
-### 5. Termination
+1. Start with 1 Prony term.
+2. Optimize parameters using Differential Evolution.
+3. Calculate MAPE for current fit.
+4. Increase number of terms and repeat steps 2-3.
+5. Continue up to a maximum number of terms (10 in this case).
+6. Select the model with the lowest MAPE as the best fit.
 
-Repeat steps 2-4 until a termination criterion is met (e.g., maximum number of generations or convergence threshold).
+This adaptive approach helps to determine the optimal number of Prony terms needed to accurately represent the material behavior without overfitting.
 
-## Implementation in Our Code
+## 5. Parameter Bounds
 
-In our Prony series fitting code, we use SciPy's implementation of differential evolution:
+The optimization is constrained by the following parameter bounds:
 
-```python
-from scipy.optimize import differential_evolution
+- $E_0$: $[0.5 \times \min(E'_{exp}), 2 \times \max(E'_{exp})]$
+- $g_i$: $[0, 1]$
+- $\tau_i$: $[1/\max(\omega), 1/\min(\omega)]$
 
-result = differential_evolution(
-    objective_function,
-    bounds,
-    args=(omega, storage_exp, loss_exp),
-    strategy='best1bin',
-    maxiter=1000,
-    popsize=15,
-    tol=1e-7,
-    mutation=(0.5, 1),
-    recombination=0.7
-)
-```
+These bounds ensure physically meaningful results and improve the efficiency of the optimization process.
 
-The objective function in our case is the Mean Absolute Percentage Error (MAPE) between the experimental and calculated moduli:
-
-$MAPE(E', E'') = \frac{100}{n} \sum_{i=1}^{n} \left| \frac{E'_{\text{exp}} - E'_{\text{calc}}}{E'_{\text{exp}}} \right| + \frac{100}{n} \sum_{i=1}^{n} \left| \frac{E''_{\text{exp}} - E''_{\text{calc}}}{E''_{\text{exp}}} \right|$
-
-## Benefits of Differential Evolution for Prony Series Fitting
-
-1. **Global Optimization**: DE is effective at finding the global minimum, reducing the risk of getting trapped in local minima, which is crucial for complex viscoelastic models.
-
-2. **Parameter-Free**: DE requires minimal parameter tuning, making it robust across different datasets.
-
-3. **Parallel Processing**: The population-based nature of DE allows for easy parallelization, potentially speeding up computation for large datasets.
-
-4. **Handling Non-Differentiable Functions**: DE doesn't require the objective function to be differentiable, which is beneficial for complex material models.
-
-5. **Constraint Handling**: DE can easily incorporate parameter constraints, which is important for ensuring physically meaningful Prony series parameters.
-
-6. **Adaptability**: DE can adapt its search strategy during the optimization process, making it efficient for a wide range of problem landscapes.
-
-7. **Robustness to Noise**: DE is relatively robust to noise in the objective function, which can be present in experimental viscoelastic data.
-
-## Conclusion
-
-The differential evolution algorithm provides a robust and efficient method for optimizing Prony series parameters. Its ability to handle complex, non-linear optimization problems makes it particularly well-suited for fitting viscoelastic models to experimental data. The implementation in our code leverages these strengths to ensure accurate and reliable fits for a wide range of viscoelastic materials.
+By combining the Prony series model, MAPE objective function, Differential Evolution algorithm, and adaptive fitting approach, this method provides a robust way to characterize viscoelastic materials from dynamic modulus data.
