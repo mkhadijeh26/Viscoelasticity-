@@ -1,28 +1,24 @@
-# Prony Series Fit for Viscoelastic Data
-
-This project provides a Python-based implementation to fit viscoelastic data using the **Prony series**. The code uses experimental data (storage modulus and loss modulus) and optimizes the Prony series parameters to model the material's behavior.
-
 ## Prony Series Overview
 
 The **Prony series** is a mathematical model used to represent the viscoelastic behavior of materials. The material's modulus is decomposed into two parts:
-- **Storage modulus** (elastic behavior): E'(ω)
-- **Loss modulus** (viscous behavior): E''(ω)
+- **Storage modulus** (elastic behavior): $E'(\\omega)$
+- **Loss modulus** (viscous behavior): $E''(\\omega)$
 
 The equations for the Prony series used in this project are as follows:
 
-### Storage Modulus E'(ω):
+### Storage Modulus $E'(\\omega)$:
 
 ![Storage Modulus](https://latex.codecogs.com/svg.image?E'(\omega)%20=%20E_0%20\left(1%20-%20\sum_{i=1}^{n}%20g_i%20+%20\sum_{i=1}^{n}%20g_i%20\frac{\omega^2%20\tau_i^2}{1%20+%20\omega^2%20\tau_i^2}%20\right))
 
-### Loss Modulus E''(ω):
+### Loss Modulus $E''(\\omega)$:
 
 ![Loss Modulus](https://latex.codecogs.com/svg.image?E''(\omega)%20=%20E_0%20\sum_{i=1}^{n}%20g_i%20\frac{\omega%20\tau_i}{1%20+%20\omega^2%20\tau_i^2})
 
 Where:
-- E₀ is the long-term modulus.
-- gᵢ are the Prony series coefficients (describing the material's relaxation behavior).
-- τᵢ are the relaxation times.
-- ω is the angular frequency (rad/s).
+- $E_0$ is the long-term modulus.
+- $g_i$ are the Prony series coefficients (describing the material's relaxation behavior).
+- $\\tau_i$ are the relaxation times.
+- $\\omega$ is the angular frequency (rad/s).
 
 ## Algorithm
 
@@ -33,30 +29,30 @@ The core of the implementation is based on **differential evolution (DE)**, a gl
 The **differential evolution** algorithm works as follows:
 
 1. **Initialization**: 
-   A population of NP candidate solutions x_i (i = 1, ..., NP) is randomly generated within the specified parameter bounds. Each x_i represents a set of Prony series parameters E_0, g_1, τ_1, ..., g_n, τ_n.
+   A population of NP candidate solutions $x_i$ ($i = 1, ..., NP$) is randomly generated within the specified parameter bounds. Each $x_i$ represents a set of Prony series parameters $E_0$, $g_1$, $\\tau_1$, ..., $g_n$, $\\tau_n$.
 
 2. **Mutation**: 
-   For each target vector x_i, a mutant vector v_i is created using the "best1bin" strategy:
+   For each target vector $x_i$, a mutant vector $v_i$ is created using the "best1bin" strategy:
    
    ![Mutation](https://latex.codecogs.com/svg.image?v_i%20=%20x_{best}%20+%20F%20\cdot%20(x_{r1}%20-%20x_{r2}))
    
-   Where x_best is the best solution so far, x_r1 and x_r2 are two randomly chosen distinct vectors, and F is the mutation factor (set to a range of [0.5, 1] in this implementation).
+   Where $x_{best}$ is the best solution so far, $x_{r1}$ and $x_{r2}$ are two randomly chosen distinct vectors, and $F$ is the mutation factor (set to a range of [0.5, 1] in this implementation).
 
 3. **Crossover**: 
-   A trial vector u_i is created by mixing components of x_i and v_i:
+   A trial vector $u_i$ is created by mixing components of $x_i$ and $v_i$:
    
-   ![Crossover](https://latex.codecogs.com/svg.image?u_{i,j}%20=%20\begin{cases}%20v_{i,j}%20&%20\text{if%20}%20\text{rand}(0,1)%20\leq%20CR%20\text{%20or%20}%20j%20=%20j_{rand}%20\\%20x_{i,j}%20&%20\text{otherwise}%20\end{cases})
+   ![Crossover](https://latex.codecogs.com/svg.image?u_%7Bi%2Cj%7D%20%3D%20%5Cbegin%7Bcases%7D%20v_%7Bi%2Cj%7D%20%26%20%5Ctext%7Bif%20%7D%20%5Ctext%7Brand%7D(0%2C1)%20%5Cleq%20CR%20%5Ctext%7B%20or%20%7D%20j%20%3D%20j_%7Brand%7D%20%5C%5C%20x_%7Bi%2Cj%7D%20%26%20%5Ctext%7Botherwise%7D%20%5Cend%7Bcases%7D)
    
-   Where CR is the crossover rate (set to 0.7 in this implementation) and j_rand is a randomly chosen index to ensure that at least one component is always inherited from the mutant vector.
+   Where $CR$ is the crossover rate (set to 0.7 in this implementation) and $j_{rand}$ is a randomly chosen index to ensure that at least one component is always inherited from the mutant vector.
 
 4. **Selection**: 
-   The trial vector u_i is evaluated using the MAPE objective function. If it yields a lower MAPE than x_i, it replaces x_i in the next generation:
+   The trial vector $u_i$ is evaluated using the MAPE objective function. If it yields a lower MAPE than $x_i$, it replaces $x_i$ in the next generation:
    
-   ![Selection](https://latex.codecogs.com/svg.image?x_i^{G+1}%20=%20\begin{cases}%20u_i^G%20&%20\text{if%20}%20f(u_i^G)%20<%20f(x_i^G)%20\\%20x_i^G%20&%20\text{otherwise}%20\end{cases})
+   ![Selection](https://latex.codecogs.com/svg.image?x_i%5E%7BG%2B1%7D%20%3D%20%5Cbegin%7Bcases%7D%20u_i%5EG%20%26%20%5Ctext%7Bif%20%7D%20f(u_i%5EG)%20%3C%20f(x_i%5EG)%20%5C%5C%20x_i%5EG%20%26%20%5Ctext%7Botherwise%7D%20%5Cend%7Bcases%7D)
    
-   Where f() represents the MAPE objective function and G is the current generation.
+   Where $f()$ represents the MAPE objective function and $G$ is the current generation.
 
 5. **Stopping Criteria**: 
-   The algorithm continues for a maximum of 1000 iterations or until the population converges to within a tolerance of 1e-7.
+   The algorithm continues for a maximum of 1000 iterations or until the population converges to within a tolerance of $1e^{-7}$.
+"""
 
-[The rest of the content remains the same...]
