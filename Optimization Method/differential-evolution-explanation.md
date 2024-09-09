@@ -50,7 +50,7 @@ The **differential evolution** algorithm works as follows:
    Where $CR$ is the crossover rate (set to 0.7 in this implementation) and $j_{rand}$ is a randomly chosen index to ensure that at least one component is always inherited from the mutant vector.
 
 4. **Selection**: 
-   The trial vector $u_i$ is evaluated using the $**MAPE**$ objective function. If it yields a lower MAPE than $x_i$, it replaces $x_i$ in the next generation:
+   The trial vector $u_i$ is evaluated using the **$MAPE$** objective function. If it yields a lower MAPE than $x_i$, it replaces $x_i$ in the next generation:
    
    ![Selection](https://latex.codecogs.com/svg.image?x_i%5E%7BG%2B1%7D%20%3D%20%5Cbegin%7Bcases%7D%20u_i%5EG%20%26%20%5Ctext%7Bif%20%7D%20f(u_i%5EG)%20%3C%20f(x_i%5EG)%20%5C%5C%20x_i%5EG%20%26%20%5Ctext%7Botherwise%7D%20%5Cend%7Bcases%7D)
    
