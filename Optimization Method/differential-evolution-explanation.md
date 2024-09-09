@@ -12,11 +12,11 @@ The equations for the Prony series used in this project are as follows:
 
 ### Storage Modulus E'(ω):
 
-![Storage Modulus](https://render.githubusercontent.com/render/math?math=%5Clarge+E%27%28%5Comega%29+%3D+E_0+%5Cleft%281+-+%5Csum_%7Bi%3D1%7D%5E%7Bn%7D+g_i+%2B+%5Csum_%7Bi%3D1%7D%5E%7Bn%7D+g_i+%5Cfrac%7B%5Comega%5E2+%5Ctau_i%5E2%7D%7B1+%2B+%5Comega%5E2+%5Ctau_i%5E2%7D+%5Cright%29)
+(https://render.githubusercontent.com/render/math?math=%5Clarge+E%27%28%5Comega%29+%3D+E_0+%5Cleft%281+-+%5Csum_%7Bi%3D1%7D%5E%7Bn%7D+g_i+%2B+%5Csum_%7Bi%3D1%7D%5E%7Bn%7D+g_i+%5Cfrac%7B%5Comega%5E2+%5Ctau_i%5E2%7D%7B1+%2B+%5Comega%5E2+%5Ctau_i%5E2%7D+%5Cright%29)
 
 ### Loss Modulus E''(ω):
 
-![Loss Modulus](https://render.githubusercontent.com/render/math?math=%5Clarge+E%27%27%28%5Comega%29+%3D+E_0+%5Csum_%7Bi%3D1%7D%5E%7Bn%7D+g_i+%5Cfrac%7B%5Comega+%5Ctau_i%7D%7B1+%2B+%5Comega%5E2+%5Ctau_i%5E2%7D)
+(https://render.githubusercontent.com/render/math?math=%5Clarge+E%27%27%28%5Comega%29+%3D+E_0+%5Csum_%7Bi%3D1%7D%5E%7Bn%7D+g_i+%5Cfrac%7B%5Comega+%5Ctau_i%7D%7B1+%2B+%5Comega%5E2+%5Ctau_i%5E2%7D)
 
 Where:
 - E₀ is the long-term modulus.
