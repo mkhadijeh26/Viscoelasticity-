@@ -1,4 +1,3 @@
-
 # Prony Series Fit for Viscoelastic Data
 
 This project provides a Python-based implementation to fit viscoelastic data using the **Prony series**. The code uses experimental data (storage modulus and loss modulus) and optimizes the Prony series parameters to model the material's behavior. This is useful in modeling viscoelastic materials, such as polymers, by fitting their frequency-dependent storage and loss moduli.
@@ -6,36 +5,35 @@ This project provides a Python-based implementation to fit viscoelastic data usi
 ## Prony Series Overview
 
 The **Prony series** is a mathematical model used to represent the viscoelastic behavior of materials. The material's modulus is decomposed into two parts:
-- **Storage modulus** (elastic behavior): \( E'(ω) \)
-- **Loss modulus** (viscous behavior): \( E''(ω) \)
+- **Storage modulus** (elastic behavior): \(E'(ω)\)
+- **Loss modulus** (viscous behavior): \(E''(ω)\)
 
 The equations for the Prony series used in this project are as follows:
 
-### Storage Modulus (\( E'(ω) \)):
+### Storage Modulus \(E'(ω)\):
+
 \[
-E'(ω) = E_0 \left(1 - \sum_{i=1}^{n} g_i + \sum_{i=1}^{n} g_i \cdot rac{ω^2 \cdot 	au_i^2}{1 + ω^2 \cdot 	au_i^2} 
-ight)
+E'(ω) = E_0 \left(1 - \sum_{i=1}^{n} g_i + \sum_{i=1}^{n} g_i \frac{ω^2 \tau_i^2}{1 + ω^2 \tau_i^2} \right)
 \]
 
-### Loss Modulus (\( E''(ω) \)):
+### Loss Modulus \(E''(ω)\):
+
 \[
-E''(ω) = E_0 \sum_{i=1}^{n} g_i \cdot rac{ω \cdot 	au_i}{1 + ω^2 \cdot 	au_i^2}
+E''(ω) = E_0 \sum_{i=1}^{n} g_i \frac{ω \tau_i}{1 + ω^2 \tau_i^2}
 \]
 
 Where:
-- \( E_0 \) is the long-term modulus.
-- \( g_i \) are the Prony series coefficients (describing the material's relaxation behavior).
-- \( τ_i \) are the relaxation times.
-- \( ω \) is the angular frequency (rad/s).
+- \(E_0\) is the long-term modulus.
+- \(g_i\) are the Prony series coefficients (describing the material's relaxation behavior).
+- \(τ_i\) are the relaxation times.
+- \(ω\) is the angular frequency (rad/s).
 
 ## Algorithm
 
 The core of the implementation is based on **differential evolution (DE)**, a global optimization technique. The optimization process aims to minimize the error between the experimental and predicted moduli, based on the following **Mean Absolute Percentage Error (MAPE)** objective function:
 
 \[
-	ext{MAPE}(E', E'') = rac{100}{n} \sum_{i=1}^{n} \left| rac{E_{	ext{exp}}' - E_{	ext{calc}}'}{E_{	ext{exp}}'} 
-ight| + rac{100}{n} \sum_{i=1}^{n} \left| rac{E_{	ext{exp}}'' - E_{	ext{calc}}''}{E_{	ext{exp}}''} 
-ight|
+\text{MAPE}(E', E'') = \frac{100}{n} \sum_{i=1}^{n} \left| \frac{E_{\text{exp}}' - E_{\text{calc}}'}{E_{\text{exp}}'} \right| + \frac{100}{n} \sum_{i=1}^{n} \left| \frac{E_{\text{exp}}'' - E_{\text{calc}}''}{E_{\text{exp}}''} \right|
 \]
 
 The **differential evolution** algorithm works as follows:
@@ -70,8 +68,3 @@ The code also generates plots comparing the experimental data with the fitted Pr
 4. **Example Command**:
 ```bash
 python prony_fit.py
-```
-
-## License
-
-This project is licensed under the MIT License.
