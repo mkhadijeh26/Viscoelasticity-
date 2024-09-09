@@ -5,8 +5,8 @@ This project provides a Python-based implementation to fit viscoelastic data usi
 ## Prony Series Overview
 
 The **Prony series** is a mathematical model used to represent the viscoelastic behavior of materials. The material's modulus is decomposed into two parts:
-- **Storage modulus** (elastic behavior): E'(ω)
-- **Loss modulus** (viscous behavior): E''(ω)
+- **Storage modulus** (elastic behavior): $E'(ω)$
+- **Loss modulus** (viscous behavior): $E''(ω)$
 
 The equations for the Prony series used in this project are as follows:
 
