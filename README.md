@@ -5,36 +5,30 @@ This project provides a Python-based implementation to fit viscoelastic data usi
 ## Prony Series Overview
 
 The **Prony series** is a mathematical model used to represent the viscoelastic behavior of materials. The material's modulus is decomposed into two parts:
-- **Storage modulus** (elastic behavior): \(E'(ω)\)
-- **Loss modulus** (viscous behavior): \(E''(ω)\)
+- **Storage modulus** (elastic behavior): E'(ω)
+- **Loss modulus** (viscous behavior): E''(ω)
 
 The equations for the Prony series used in this project are as follows:
 
-### Storage Modulus \(E'(ω)\):
+### Storage Modulus E'(ω):
 
-\[
-E'(ω) = E_0 \left(1 - \sum_{i=1}^{n} g_i + \sum_{i=1}^{n} g_i \frac{ω^2 \tau_i^2}{1 + ω^2 \tau_i^2} \right)
-\]
+![Storage Modulus](https://latex.codecogs.com/svg.latex?E'(\omega)%20=%20E_0%20\left(1%20-%20\sum_{i=1}^{n}%20g_i%20+%20\sum_{i=1}^{n}%20g_i%20\frac{\omega^2%20\tau_i^2}{1%20+%20\omega^2%20\tau_i^2}%20\right))
 
-### Loss Modulus \(E''(ω)\):
+### Loss Modulus E''(ω):
 
-\[
-E''(ω) = E_0 \sum_{i=1}^{n} g_i \frac{ω \tau_i}{1 + ω^2 \tau_i^2}
-\]
+![Loss Modulus](https://latex.codecogs.com/svg.latex?E''(\omega)%20=%20E_0%20\sum_{i=1}^{n}%20g_i%20\frac{\omega%20\tau_i}{1%20+%20\omega^2%20\tau_i^2})
 
 Where:
-- \(E_0\) is the long-term modulus.
-- \(g_i\) are the Prony series coefficients (describing the material's relaxation behavior).
-- \(τ_i\) are the relaxation times.
-- \(ω\) is the angular frequency (rad/s).
+- E₀ is the long-term modulus.
+- gᵢ are the Prony series coefficients (describing the material's relaxation behavior).
+- τᵢ are the relaxation times.
+- ω is the angular frequency (rad/s).
 
 ## Algorithm
 
 The core of the implementation is based on **differential evolution (DE)**, a global optimization technique. The optimization process aims to minimize the error between the experimental and predicted moduli, based on the following **Mean Absolute Percentage Error (MAPE)** objective function:
 
-\[
-\text{MAPE}(E', E'') = \frac{100}{n} \sum_{i=1}^{n} \left| \frac{E_{\text{exp}}' - E_{\text{calc}}'}{E_{\text{exp}}'} \right| + \frac{100}{n} \sum_{i=1}^{n} \left| \frac{E_{\text{exp}}'' - E_{\text{calc}}''}{E_{\text{exp}}''} \right|
-\]
+![MAPE](https://latex.codecogs.com/svg.latex?\text{MAPE}(E',%20E'')%20=%20\frac{100}{n}%20\sum_{i=1}^{n}%20\left|%20\frac{E_{\text{exp}}'%20-%20E_{\text{calc}}'}{E_{\text{exp}}'}%20\right|%20+%20\frac{100}{n}%20\sum_{i=1}^{n}%20\left|%20\frac{E_{\text{exp}}''%20-%20E_{\text{calc}}''}{E_{\text{exp}}''}%20\right|)
 
 The **differential evolution** algorithm works as follows:
 1. **Initialization**: A population of candidate solutions is randomly generated.
@@ -66,5 +60,6 @@ The code also generates plots comparing the experimental data with the fitted Pr
    Simply run the script with your experimental data. The output will show the optimized Prony series parameters and a plot of the fit compared to the experimental data.
 
 4. **Example Command**:
-```bash
-python prony_fit.py
+   ```bash
+   python prony_fit.py
+   ```
