@@ -8,7 +8,7 @@ The equations for the Prony series used in this project are as follows:
 
 ### Storage Modulus E'(ω):
 
-```latex
+```
 E'(\omega) = E_0 \left(1 - \sum_{i=1}^{n} g_i + \sum_{i=1}^{n} g_i \frac{\omega^2 \tau_i^2}{1 + \omega^2 \tau_i^2} \right)
 ```
 
