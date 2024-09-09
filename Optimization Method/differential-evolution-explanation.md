@@ -33,28 +33,28 @@ The core of the implementation is based on **differential evolution (DE)**, a gl
 The **differential evolution** algorithm works as follows:
 
 1. **Initialization**: 
-   A population of $NP$ candidate solutions $x_i$ ($i$ = 1, ..., $NP$) is randomly generated within the specified parameter bounds. Each x_i represents a set of Prony series parameters E_0, $g_1$, $τ_1$, ..., $g_n$, $τ_n$.
+   A population of $NP$ candidate solutions $x_i$ ($i$ = 1, ..., $NP$) is randomly generated within the specified parameter bounds. Each x_i represents a set of Prony series parameters $E_0$, $g_1$, $τ_1$, ..., $g_n$, $τ_n$.
 
 2. **Mutation**: 
-   For each target vector x_i, a mutant vector v_i is created using the "best1bin" strategy:
+   For each target vector x_i, a mutant vector $v_i$ is created using the "best1bin" strategy:
    
    ![Mutation](https://latex.codecogs.com/svg.image?v_i%20=%20x_{best}%20+%20F%20\cdot%20(x_{r1}%20-%20x_{r2}))
    
-   Where x_best is the best solution so far, x_r1 and x_r2 are two randomly chosen distinct vectors, and F is the mutation factor (set to a range of [0.5, 1] in this implementation).
+   Where x_best is the best solution so far, $x_r1$ and $x_r2$ are two randomly chosen distinct vectors, and F is the mutation factor (set to a range of [0.5, 1] in this implementation).
 
 3. **Crossover**: 
-   A trial vector u_i is created by mixing components of x_i and v_i:
+   A trial vector $u_i$ is created by mixing components of $x_i$ and $v_i$:
    
    ![Crossover](https://latex.codecogs.com/svg.image?u_%7Bi%2Cj%7D%20%3D%20%5Cbegin%7Bcases%7D%20v_%7Bi%2Cj%7D%20%26%20%5Ctext%7Bif%20%7D%20%5Ctext%7Brand%7D(0%2C1)%20%5Cleq%20CR%20%5Ctext%7B%20or%20%7D%20j%20%3D%20j_%7Brand%7D%20%5C%5C%20x_%7Bi%2Cj%7D%20%26%20%5Ctext%7Botherwise%7D%20%5Cend%7Bcases%7D)
    
-   Where CR is the crossover rate (set to 0.7 in this implementation) and j_rand is a randomly chosen index to ensure that at least one component is always inherited from the mutant vector.
+   Where $CR$ is the crossover rate (set to 0.7 in this implementation) and $j_rand$ is a randomly chosen index to ensure that at least one component is always inherited from the mutant vector.
 
 4. **Selection**: 
-   The trial vector u_i is evaluated using the MAPE objective function. If it yields a lower MAPE than x_i, it replaces x_i in the next generation:
+   The trial vector $u_i$ is evaluated using the $**MAPE**$ objective function. If it yields a lower MAPE than $x_i$, it replaces $x_i$ in the next generation:
    
    ![Selection](https://latex.codecogs.com/svg.image?x_i%5E%7BG%2B1%7D%20%3D%20%5Cbegin%7Bcases%7D%20u_i%5EG%20%26%20%5Ctext%7Bif%20%7D%20f(u_i%5EG)%20%3C%20f(x_i%5EG)%20%5C%5C%20x_i%5EG%20%26%20%5Ctext%7Botherwise%7D%20%5Cend%7Bcases%7D)
    
-   Where f() represents the MAPE objective function and G is the current generation.
+   Where $f()$ represents the $MAPE$ objective function and $G$ is the current generation.
 
 5. **Stopping Criteria**: 
    The algorithm continues for a maximum of 1000 iterations or until the population converges to within a tolerance of 1e-7.
