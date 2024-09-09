@@ -19,10 +19,10 @@ The equations for the Prony series used in this project are as follows:
 ![Loss Modulus](https://latex.codecogs.com/svg.image?E''(\omega)%20=%20E_0%20\sum_{i=1}^{n}%20g_i%20\frac{\omega%20\tau_i}{1%20+%20\omega^2%20\tau_i^2})
 
 Where:
-- $E₀$ is the long-term modulus.
-- gᵢ are the Prony series coefficients (describing the material's relaxation behavior).
-- τᵢ are the relaxation times.
-- ω is the angular frequency (rad/s).
+- $E_₀$ is the long-term modulus.
+- g_ᵢ are the Prony series coefficients (describing the material's relaxation behavior).
+- $τ_ᵢ$ are the relaxation times.
+- $ω$ is the angular frequency (rad/s).
 
 ## Algorithm
 
