@@ -45,14 +45,14 @@ The **differential evolution** algorithm works as follows:
 3. **Crossover**: 
    A trial vector u_i is created by mixing components of x_i and v_i:
    
-   ![Crossover](https://latex.codecogs.com/svg.image?u_{i,j}%20=%20\begin{cases}%20v_{i,j}%20&%20\text{if%20}%20\text{rand}(0,1)%20\leq%20CR%20\text{%20or%20}%20j%20=%20j_{rand}%20\\%20x_{i,j}%20&%20\text{otherwise}%20\end{cases})
+   ![Crossover](https://latex.codecogs.com/svg.image?u_%7Bi%2Cj%7D%20%3D%20%5Cbegin%7Bcases%7D%20v_%7Bi%2Cj%7D%20%26%20%5Ctext%7Bif%20%7D%20%5Ctext%7Brand%7D(0%2C1)%20%5Cleq%20CR%20%5Ctext%7B%20or%20%7D%20j%20%3D%20j_%7Brand%7D%20%5C%5C%20x_%7Bi%2Cj%7D%20%26%20%5Ctext%7Botherwise%7D%20%5Cend%7Bcases%7D)
    
    Where CR is the crossover rate (set to 0.7 in this implementation) and j_rand is a randomly chosen index to ensure that at least one component is always inherited from the mutant vector.
 
 4. **Selection**: 
    The trial vector u_i is evaluated using the MAPE objective function. If it yields a lower MAPE than x_i, it replaces x_i in the next generation:
    
-   ![Selection](https://latex.codecogs.com/svg.image?x_i^{G+1}%20=%20\begin{cases}%20u_i^G%20&%20\text{if%20}%20f(u_i^G)%20<%20f(x_i^G)%20\\%20x_i^G%20&%20\text{otherwise}%20\end{cases})
+   ![Selection](https://latex.codecogs.com/svg.image?x_i%5E%7BG%2B1%7D%20%3D%20%5Cbegin%7Bcases%7D%20u_i%5EG%20%26%20%5Ctext%7Bif%20%7D%20f(u_i%5EG)%20%3C%20f(x_i%5EG)%20%5C%5C%20x_i%5EG%20%26%20%5Ctext%7Botherwise%7D%20%5Cend%7Bcases%7D)
    
    Where f() represents the MAPE objective function and G is the current generation.
 
