@@ -40,7 +40,7 @@ The **differential evolution** algorithm works as follows:
    
    ![Mutation](https://latex.codecogs.com/svg.image?v_i%20=%20x_{best}%20+%20F%20\cdot%20(x_{r1}%20-%20x_{r2}))
    
-   Where x_best is the best solution so far, $x_r1$ and $x_r2$ are two randomly chosen distinct vectors, and F is the mutation factor (set to a range of [0.5, 1] in this implementation).
+   Where x_best is the best solution so far, $x_r1$ and $x_r2$ are two randomly chosen distinct vectors, and $F$ is the mutation factor (set to a range of [0.5, 1] in this implementation).
 
 3. **Crossover**: 
    A trial vector $u_i$ is created by mixing components of $x_i$ and $v_i$:
