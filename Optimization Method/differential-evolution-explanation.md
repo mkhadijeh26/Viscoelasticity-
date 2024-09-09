@@ -1,29 +1,3 @@
-# Prony Series Fit for Viscoelastic Data
-
-This project provides a Python-based implementation to fit viscoelastic data using the **Prony series**. The code uses experimental data (storage modulus and loss modulus) and optimizes the Prony series parameters to model the material's behavior.
-
-## Prony Series Overview
-
-The **Prony series** is a mathematical model used to represent the viscoelastic behavior of materials. The material's modulus is decomposed into two parts:
-- **Storage modulus** (elastic behavior): E'(ω)
-- **Loss modulus** (viscous behavior): E''(ω)
-
-The equations for the Prony series used in this project are as follows:
-
-### Storage Modulus E'(ω):
-
-![Storage Modulus](https://latex.codecogs.com/png.latex?E%27%28%5Comega%29%20%3D%20E_0%20%5Cleft%281%20-%20%5Csum_%7Bi%3D1%7D%5E%7Bn%7D%20g_i%20&plus;%20%5Csum_%7Bi%3D1%7D%5E%7Bn%7D%20g_i%20%5Cfrac%7B%5Comega%5E2%20%5Ctau_i%5E2%7D%7B1%20&plus;%20%5Comega%5E2%20%5Ctau_i%5E2%7D%20%5Cright%29)
-
-### Loss Modulus E''(ω):
-
-![Loss Modulus](https://latex.codecogs.com/png.latex?E%27%27%28%5Comega%29%20%3D%20E_0%20%5Csum_%7Bi%3D1%7D%5E%7Bn%7D%20g_i%20%5Cfrac%7B%5Comega%20%5Ctau_i%7D%7B1%20&plus;%20%5Comega%5E2%20%5Ctau_i%5E2%7D)
-
-Where:
-- E₀ is the long-term modulus.
-- gᵢ are the Prony series coefficients (describing the material's relaxation behavior).
-- τᵢ are the relaxation times.
-- ω is the angular frequency (rad/s).
-
 ## Algorithm
 
 The core of the implementation is based on **differential evolution (DE)**, a global optimization technique. The optimization process aims to minimize the error between the experimental and predicted moduli, based on the following **Mean Absolute Percentage Error (MAPE)** objective function:
