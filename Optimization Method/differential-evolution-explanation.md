@@ -58,7 +58,7 @@ The **differential evolution** algorithm works as follows:
 """
 
 
-In our Prony series fitting code, we use SciPy's implementation of differential evolution:
+## SciPy's implementation of differential evolution:
 
 ```python
 from scipy.optimize import differential_evolution
