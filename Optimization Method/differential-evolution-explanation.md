@@ -55,4 +55,20 @@ The **differential evolution** algorithm works as follows:
 5. **Stopping Criteria**: 
    The algorithm continues for a maximum of 1000 iterations or until the population converges to within a tolerance of $1e^{-7}$.
 """
+In our Prony series fitting code, we use SciPy's implementation of differential evolution:
 
+```python
+from scipy.optimize import differential_evolution
+
+result = differential_evolution(
+    objective_function,
+    bounds,
+    args=(omega, storage_exp, loss_exp),
+    strategy='best1bin',
+    maxiter=1000,
+    popsize=15,
+    tol=1e-7,
+    mutation=(0.5, 1),
+    recombination=0.7
+)
+```
