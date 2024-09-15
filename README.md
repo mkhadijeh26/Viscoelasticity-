@@ -1,5 +1,18 @@
 # To cite:
-[![DOI](https://zenodo.org/badge/854498798.svg)](https://zenodo.org/doi/10.5281/zenodo.13735907)
+@software{khadijeh_2024_13735908,
+  author       = {Khadijeh, Mahmoud and
+                  Varveri, Aikaterini and
+                  Kasbergen, Cor and
+                  Erkens, Sandra},
+  title        = {{Prony Series Fit for Viscoelastic Data Using a 
+                   Genetic Algorithm}},
+  month        = sep,
+  year         = 2024,
+  publisher    = {Zenodo},
+  version      = {V1.0.0},
+  doi          = {10.5281/zenodo.13735908},
+  url          = {https://doi.org/10.5281/zenodo.13735908}
+}
 
 
 
