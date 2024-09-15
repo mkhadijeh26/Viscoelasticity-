@@ -1,4 +1,5 @@
 # To cite:
+```python
 @software{khadijeh_2024_13735908,
   author       = {Khadijeh, Mahmoud and
                   Varveri, Aikaterini and
@@ -13,7 +14,7 @@
   doi          = {10.5281/zenodo.13735908},
   url          = {https://doi.org/10.5281/zenodo.13735908}
 }
-
+```
 
 
 # Prony Series Fit for Viscoelastic Data
