@@ -1,3 +1,8 @@
+# To cite:
+[![DOI](https://zenodo.org/badge/854498798.svg)](https://zenodo.org/doi/10.5281/zenodo.13735907)
+
+
+
 # Prony Series Fit for Viscoelastic Data
 
 This project provides a Python-based implementation to fit viscoelastic data using the **Prony series**. The code uses experimental data (storage modulus and loss modulus) and optimizes the Prony series parameters to model the material's behavior. This is useful in modeling viscoelastic materials, such as polymers, by fitting their frequency-dependent storage and loss moduli. The resulting Prony series parameters are particularly useful for creating material models in finite element software like ABAQUS.
