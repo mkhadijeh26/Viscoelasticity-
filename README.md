@@ -1,4 +1,41 @@
 # To cite:
+```Article
+@article{KHADIJEH2025117462,
+title = {Exploring the roles of numerical simulations and machine learning in multiscale paving materials analysis: Applications, challenges, best practices},
+journal = {Computer Methods in Applied Mechanics and Engineering},
+volume = {433},
+pages = {117462},
+year = {2025},
+issn = {0045-7825},
+doi = {https://doi.org/10.1016/j.cma.2024.117462},
+url = {https://www.sciencedirect.com/science/article/pii/S0045782524007175},
+author = {Mahmoud Khadijeh and Cor Kasbergen and Sandra Erkens and Aikaterini Varveri},
+keywords = {Multiscale modeling, Paving materials, Numerical simulation, Machine learning, Finite element method, Discrete element method, Physics informed neural networks},
+abstract = {The complex structure of bituminous mixtures ranging from nanoscale binder components to macroscale pavement performance requires a comprehensive approach to material characterization and performance prediction. This paper provides a critical analysis of advanced techniques in paving materials modeling. It focuses on four main approaches: finite element method (FEM), discrete element method (DEM), phase field method (PFM), and artificial neural networks (ANNs). The review highlights how these computational methods enable more accurate predictions of material behavior, from asphalt binder rheology to mixture performance, while reducing reliance on extensive empirical testing. Key advances, such as the smooth integration of information across multiple scales and the emergence of physics-informed neural networks (PINNs), are discussed as promising avenues for enhancing model accuracy and computational efficiency. This review not only provides a comprehensive overview of current methodologies but also outlines future research directions aimed at developing more sustainable, cost-effective, and durable paving solutions through advanced multiscale modeling techniques.}
+}
+
+
+```python
+@software{khadijeh_2024_13735908,
+  author       = {Khadijeh, Mahmoud and
+                  Varveri, Aikaterini and
+                  Kasbergen, Cor and
+                  Erkens, Sandra},
+  title        = {{Prony Series Fit for Viscoelastic Data Using a 
+                   Genetic Algorithm}},
+  month        = sep,
+  year         = 2024,
+  publisher    = {Zenodo},
+  version      = {V1.0.0},
+  doi          = {10.5281/zenodo.13735908},
+  url          = {https://doi.org/10.5281/zenodo.13735908}
+}
+```
+
+
+
+
+# To cite:
 ```python
 @software{khadijeh_2024_13735908,
   author       = {Khadijeh, Mahmoud and
